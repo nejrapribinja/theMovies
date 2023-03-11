@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
 import axios from "axios";
+const apiKey = process.env.REACT_APP_API_KEY;
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     axios
-      .get(
-        "https://api.themoviedb.org/3/tv/popular?api_key=c6d6659e774322031d29a692fe261b8e&language=en-US&page=1"
-      )
+      .get(`https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`)
       .then((response) => {
         setMovies(response.data.results);
         console.log(movies);
