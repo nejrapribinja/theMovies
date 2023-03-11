@@ -1,3 +1,9 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +16,50 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.navbar {
+  background-color: rgb(3,37,65) !important;
+  --bs-navbar-color: white !important; 
+  cursor: pointer;
+}
+
+.navbar-nav {
+  --bs-nav-link-hover-color: white !important;
+  font-weight: bold;
+}
+
+.header {
+  background-image: url("https://www.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,00192f,00baff)/9ZyAUZrfccsjtDwYgc7yvOBnqM9.jpg");
+  background-size: cover;
+  color: white;
+  padding: 35px ;
+}
+
+
+.form-control {
+  transition: none !important;
+}
+
+.btn {
+  background:linear-gradient(to right, rgba(30,213,169, 1) 0%, rgba(1,180,228, 1) 100%);
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.container {
+  --bs-gutter-x: 0 !important;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent ;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(183, 188, 191);
 }

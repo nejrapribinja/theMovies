@@ -1,8 +1,14 @@
+import Movies from "./Movies";
+import Navbar from "./Navbar";
+import SearchComponent from "./SearchComponent";
+
 function App() {
   return (
-    <div className="App">
-      <h1>j</h1>
-    </div>
+    <>
+      <Navbar />
+      <SearchComponent />
+      <Movies />
+    </>
   );
 }
 
