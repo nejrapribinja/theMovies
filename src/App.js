@@ -1,6 +1,7 @@
 import Movies from "./Movies";
 import Navbar from "./Navbar";
 import SearchComponent from "./SearchComponent";
+import TvShows from "./TvShows";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Navbar />
       <SearchComponent />
       <Movies />
+      <TvShows />
     </>
   );
 }

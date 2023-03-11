@@ -1,4 +1,4 @@
-const MovieCard = ({ title, release_date, poster_path }) => {
+const TvShowCard = ({ name, first_air_date, poster_path }) => {
   return (
     <div className=" me-4 ">
       <img
@@ -8,10 +8,10 @@ const MovieCard = ({ title, release_date, poster_path }) => {
         alt="..."
       />
       <div>
-        <h6>{title}</h6>
-        <p>{release_date}</p>
+        <h6>{name}</h6>
+        <p>{first_air_date}</p>
       </div>
     </div>
   );
 };
-export default MovieCard;
+export default TvShowCard;

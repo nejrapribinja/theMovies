@@ -47,10 +47,6 @@ code {
   font-weight: bold !important;
 }
 
-.container {
-  --bs-gutter-x: 0 !important;
-}
-
 ::-webkit-scrollbar {
   height: 8px;
   width: 8px;
