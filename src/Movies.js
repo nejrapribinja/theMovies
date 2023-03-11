@@ -16,6 +16,7 @@ const Movies = () => {
         console.log(error);
       });
   }, []);
+
   return (
     <div class="container mt-4 mb-4">
       <h3>Movies</h3>
