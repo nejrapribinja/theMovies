@@ -10,7 +10,7 @@ const TvShows = () => {
       .get(`https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`)
       .then((response) => {
         setShows(response.data.results);
-        console.log(shows);
+        console.log(response.data.results);
       })
       .catch((error) => {
         console.log(error);
@@ -20,7 +20,8 @@ const TvShows = () => {
   return (
     <div class="container mt-4 mb-4">
       <h3>Shows</h3>
-      <div class="d-flex  overflow-x-scroll">
+      <h6>What's Popular</h6>
+      <div class="d-flex overflow-x-scroll">
         {shows.map((show) => {
           return <TvShowCard key={show.id} {...show} />;
         })}

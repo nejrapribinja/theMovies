@@ -59,3 +59,9 @@ code {
 ::-webkit-scrollbar-thumb {
   background: rgb(183, 188, 191);
 }
+
+.back {
+  height: 70vh;
+  background-image: linear-gradient(to bottom right, rgba(32, 32, 32, 0.932), rgba(32, 32, 32, 0.701));
+  color: white;
+}

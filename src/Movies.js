@@ -10,7 +10,7 @@ const Movies = () => {
       .get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`)
       .then((response) => {
         setMovies(response.data.results);
-        console.log(movies);
+        console.log(response.data.results);
       })
       .catch((error) => {
         console.log(error);
@@ -20,6 +20,7 @@ const Movies = () => {
   return (
     <div class="container mt-4 mb-4">
       <h3>Movies</h3>
+      <h6>What's Popular</h6>
       <div class="d-flex  overflow-x-scroll">
         {movies.map((movie) => {
           return <MovieCard key={movie.id} {...movie} />;
