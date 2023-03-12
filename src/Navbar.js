@@ -1,7 +1,10 @@
 import { FaPlus, FaBell } from "react-icons/fa";
 import { GoSearch } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   return (
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container">
@@ -29,10 +32,18 @@ const Navbar = () => {
                 Movies
               </a>
               <div class="dropdown-content">
-                <a href="#">Popular</a>
-                <a href="#">Now playing</a>
-                <a href="#">Upcoming</a>
-                <a href="#">Top rated</a>
+                <a href="#" onClick={() => navigate("/filterMovie/popular")}>
+                  Popular
+                </a>
+                <a href="#" onClick={() => navigate("/filterMovie/now_playing")}>
+                  Now playing
+                </a>
+                <a href="#" onClick={() => navigate("/filterMovie/upcoming")}>
+                  Upcoming
+                </a>
+                <a href="#" onClick={() => navigate("/filterMovie/top_rated")}>
+                  Top rated
+                </a>
               </div>
             </li>
             <li class="nav-item me-3 dropdown">
@@ -40,10 +51,18 @@ const Navbar = () => {
                 TV shows
               </a>
               <div class="dropdown-content">
-                <a href="#">Popular</a>
-                <a href="#">Now playing</a>
-                <a href="#">Upcoming</a>
-                <a href="#">Top rated</a>
+                <a href="#" onClick={() => navigate("/filterShow/popular")}>
+                  Popular
+                </a>
+                <a href="#" onClick={() => navigate("/filterShow/airing_today")}>
+                  Airing today
+                </a>
+                <a href="#" onClick={() => navigate("/filterShow/on_the_air")}>
+                  On TV
+                </a>
+                <a href="#" onClick={() => navigate("/filterShow/top_rated")}>
+                  Top rated
+                </a>
               </div>
             </li>
             <li class="nav-item me-3">
