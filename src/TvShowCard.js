@@ -7,16 +7,16 @@ const TvShowCard = ({ ...show }) => {
   };
 
   return (
-    <div className=" m-4">
+    <div className="crd me-5">
       <img
         src={`https://www.themoviedb.org/t/p/w220_and_h330_face${show.poster_path}`}
         width="150"
         height="225"
         alt="..."
         onClick={() => handleClick(show.id)}
-        style={{ cursor: "pointer" }}
+        style={{ cursor: "pointer", borderTopRightRadius: "10px", borderTopLeftRadius: "10px" }}
       />
-      <div>
+      <div className="pt-2 ps-2">
         <h6 style={{ cursor: "pointer" }} onClick={() => handleClick(show.id)} className="mt-2">
           {show.name}
         </h6>

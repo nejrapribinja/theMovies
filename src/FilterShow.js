@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import TvShowCard from "./TvShowCard";
+import Navbar from "./Navbar";
 import axios from "axios";
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -17,8 +19,30 @@ const FilterMovie = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
-  return <></>;
+  }, [shows]);
+  return (
+    <>
+      <Navbar />
+      <div className="container mt-5">
+        <div className="row d-flex">
+          <div className="col-2">
+            <h2 className="crd p-2">dddd</h2>
+          </div>
+          <div className="col-10">
+            <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+              {shows.map((show) => {
+                return (
+                  <div className="col">
+                    <TvShowCard key={show.id} {...show} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default FilterMovie;
