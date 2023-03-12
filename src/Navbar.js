@@ -24,15 +24,27 @@ const Navbar = () => {
             />
           </a>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-            <li class="nav-item me-3">
+            <li class="nav-item me-3 dropdown">
               <a class="nav-link" aria-current="page" href="#">
                 Movies
               </a>
+              <div class="dropdown-content">
+                <a href="#">Popular</a>
+                <a href="#">Now playing</a>
+                <a href="#">Upcoming</a>
+                <a href="#">Top rated</a>
+              </div>
             </li>
-            <li class="nav-item me-3">
+            <li class="nav-item me-3 dropdown">
               <a class="nav-link" href="#">
                 TV shows
               </a>
+              <div class="dropdown-content">
+                <a href="#">Popular</a>
+                <a href="#">Now playing</a>
+                <a href="#">Upcoming</a>
+                <a href="#">Top rated</a>
+              </div>
             </li>
             <li class="nav-item me-3">
               <a class="nav-link ">People</a>

@@ -7,7 +7,16 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const Movie = () => {
   const [show, setShow] = useState([]);
   const { id } = useParams();
-  const { poster_path, name, first_air_date, overview, created_by, backdrop_path, genres } = show;
+  const {
+    poster_path,
+    original_title,
+    release_date,
+    overview,
+    created_by,
+    backdrop_path,
+    genres,
+    tagline,
+  } = show;
 
   const styles = {
     backgroundImage: `url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${backdrop_path})`,
@@ -17,7 +26,7 @@ const Movie = () => {
 
   useEffect(() => {
     axios
-      .get(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`)
+      .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`)
       .then((response) => {
         setShow(response.data);
         console.log(response.data);
@@ -37,7 +46,7 @@ const Movie = () => {
           />
           <div>
             <h2>
-              {name} ({first_air_date})
+              {original_title} ({release_date})
             </h2>
             {genres?.length > 0 ? (
               <div>
@@ -48,6 +57,7 @@ const Movie = () => {
             ) : (
               <p></p>
             )}
+            <p>{tagline}</p>
             <h4 className="mt-3">Overview</h4>
             <p>{overview}</p>
 

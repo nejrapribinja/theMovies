@@ -65,3 +65,33 @@ code {
   background-image: linear-gradient(to bottom right, rgba(32, 32, 32, 0.932), rgba(32, 32, 32, 0.701));
   color: white;
 }
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 5px;
+  padding: 12px 0;
+}
+
+.dropdown-content a {
+  color: black;
+  font-weight: normal;
+  padding: 4px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;  border-radius: 5px; color: black;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
