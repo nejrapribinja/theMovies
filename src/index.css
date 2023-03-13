@@ -102,3 +102,20 @@ code {
   border-radius: 10px;
   width: 151px;
 }
+
+button {
+  padding: 5px;
+  border: 1px solid gray;
+  border-radius: 15px !important;
+  font-size: 14px !important;
+}
+
+.selected {
+  background:linear-gradient(to right, rgba(30,213,169, 1) 0%, rgba(1,180,228, 1) 100%);
+  color: white !important;
+}
+
+
+
+
+

@@ -9,20 +9,27 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const FilterMovie = () => {
   const { string } = useParams();
   const [movies, setMovies] = useState([]);
+  const [originalMovies, setOriginalMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [sortBy, setSortBy] = useState("title");
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [year, setYear] = useState("");
 
-  useEffect(() => {
+  const fetchMovies = () => {
     axios
       .get(`https://api.themoviedb.org/3/movie/${string}?api_key=${apiKey}&language=en-US&page=1`)
       .then((response) => {
         setMovies(response.data.results);
+        setOriginalMovies(response.data.results);
         console.log(response.data.results);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  useEffect(() => {
+    fetchMovies();
   }, [string]);
 
   useEffect(() => {
@@ -49,7 +56,7 @@ const FilterMovie = () => {
     }
   };
   const handleSearch = () => {
-    let sortedMovies = [...movies];
+    let sortedMovies = [...originalMovies];
     if (sortBy === "title") {
       sortedMovies.sort((a, b) => a.title.localeCompare(b.title));
     } else if (sortBy === "release_desc") {
@@ -67,7 +74,11 @@ const FilterMovie = () => {
       }
       return movie.genre_ids.some((genreId) => filteredGenres.includes(genreId));
     });
-    setSelectedGenres([]);
+    if (year) {
+      filteredMovies = filteredMovies.filter((movie) => {
+        return movie.release_date && movie.release_date.startsWith(year);
+      });
+    }
     setMovies(filteredMovies);
   };
 
@@ -98,7 +109,7 @@ const FilterMovie = () => {
                 return (
                   <button
                     type="button"
-                    class="btn btn-light me-1 mb-1"
+                    className={`me-1 mb-1 ${selectedGenres.includes(genre.id) ? "selected" : ""}`}
                     style={{ fontSize: "10px" }}
                     onClick={() => handleGenreClick(genre.id)}>
                     {genre.name}
@@ -110,7 +121,8 @@ const FilterMovie = () => {
                 <input
                   type="text"
                   class="form-control"
-                  aria-label="Dollar amount (with dot and two decimal places)"
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
                 />
                 <span class="input-group-text">
                   <AiTwotoneCalendar />
