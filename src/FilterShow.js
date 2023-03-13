@@ -8,6 +8,78 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const FilterMovie = () => {
   const { string } = useParams();
   const [shows, setShows] = useState([]);
+  const [originalMovies, setOriginalMovies] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [sortBy, setSortBy] = useState("title");
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [year, setYear] = useState("");
+
+  const fetchMovies = () => {
+    axios
+      .get(`https://api.themoviedb.org/3/movie/${string}?api_key=${apiKey}&language=en-US&page=1`)
+      .then((response) => {
+        setMovies(response.data.results);
+        setOriginalMovies(response.data.results);
+        console.log(response.data.results);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchMovies();
+  }, [string]);
+
+  useEffect(() => {
+    axios
+      .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`)
+      .then((response) => {
+        setGenres(response.data.genres);
+        console.log(response.data.genres);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(genres);
+  }, []);
+
+  const handleGenreClick = (genreId) => {
+    // Provjeri da li je genreId vec u nizu selectedGenres
+    if (selectedGenres.includes(genreId)) {
+      // Ako jeste, ukloni ga iz niza
+      setSelectedGenres(selectedGenres.filter((id) => id !== genreId));
+    } else {
+      // Ako nije, dodaj ga u niz
+      setSelectedGenres([...selectedGenres, genreId]);
+    }
+  };
+  const handleSearch = () => {
+    let sortedMovies = [...originalMovies];
+    if (sortBy === "title") {
+      sortedMovies.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortBy === "release_desc") {
+      sortedMovies.sort((a, b) => b.release_date.localeCompare(a.release_date));
+    } else if (sortBy === "release_asc") {
+      sortedMovies.sort((a, b) => a.release_date.localeCompare(b.release_date));
+    }
+
+    const filteredGenres = genres
+      .filter((genre) => selectedGenres.includes(genre.id))
+      .map((genre) => genre.id);
+    let filteredMovies = sortedMovies.filter((movie) => {
+      if (filteredGenres.length === 0) {
+        return true;
+      }
+      return movie.genre_ids.some((genreId) => filteredGenres.includes(genreId));
+    });
+    if (year) {
+      filteredMovies = filteredMovies.filter((movie) => {
+        return movie.release_date && movie.release_date.startsWith(year);
+      });
+    }
+    setMovies(filteredMovies);
+  };
 
   useEffect(() => {
     axios
