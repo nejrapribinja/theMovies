@@ -10,6 +10,8 @@ const FilterMovie = () => {
   const { string } = useParams();
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [sortBy, setSortBy] = useState("title");
+  const [selectedGenres, setSelectedGenres] = useState([]);
 
   useEffect(() => {
     axios
@@ -21,7 +23,7 @@ const FilterMovie = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [movies]);
+  }, [string]);
 
   useEffect(() => {
     axios
@@ -36,6 +38,39 @@ const FilterMovie = () => {
     console.log(genres);
   }, []);
 
+  const handleGenreClick = (genreId) => {
+    // Provjeri da li je genreId vec u nizu selectedGenres
+    if (selectedGenres.includes(genreId)) {
+      // Ako jeste, ukloni ga iz niza
+      setSelectedGenres(selectedGenres.filter((id) => id !== genreId));
+    } else {
+      // Ako nije, dodaj ga u niz
+      setSelectedGenres([...selectedGenres, genreId]);
+    }
+  };
+  const handleSearch = () => {
+    let sortedMovies = [...movies];
+    if (sortBy === "title") {
+      sortedMovies.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortBy === "release_desc") {
+      sortedMovies.sort((a, b) => b.release_date.localeCompare(a.release_date));
+    } else if (sortBy === "release_asc") {
+      sortedMovies.sort((a, b) => a.release_date.localeCompare(b.release_date));
+    }
+
+    const filteredGenres = genres
+      .filter((genre) => selectedGenres.includes(genre.id))
+      .map((genre) => genre.id);
+    let filteredMovies = sortedMovies.filter((movie) => {
+      if (filteredGenres.length === 0) {
+        return true;
+      }
+      return movie.genre_ids.some((genreId) => filteredGenres.includes(genreId));
+    });
+    setSelectedGenres([]);
+    setMovies(filteredMovies);
+  };
+
   return (
     <>
       <Navbar />
@@ -44,12 +79,14 @@ const FilterMovie = () => {
           <div className="col-2">
             <div className="crd p-3 mb-2" style={{ width: "200px" }}>
               <h5>Sort</h5>
-
               <label>Sort by</label>
-              <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                <option selected>Title (A-Z)</option>
-                <option value="2">Year of release descending</option>
-                <option value="3">Year of release ascending</option>
+              <select
+                className="form-select form-select-sm"
+                aria-label=".form-select-sm example"
+                onChange={(e) => setSortBy(e.target.value)}>
+                <option value="title">Title (A-Z)</option>
+                <option value="release_desc">Year of release descending</option>
+                <option value="release_asc">Year of release ascending</option>
               </select>
             </div>
             <div className="crd p-3 mb-2" style={{ width: "200px" }}>
@@ -62,7 +99,8 @@ const FilterMovie = () => {
                   <button
                     type="button"
                     class="btn btn-light me-1 mb-1"
-                    style={{ fontSize: "10px" }}>
+                    style={{ fontSize: "10px" }}
+                    onClick={() => handleGenreClick(genre.id)}>
                     {genre.name}
                   </button>
                 );
@@ -79,7 +117,9 @@ const FilterMovie = () => {
                 </span>
               </div>
             </div>
-            <button className="btn">Search</button>
+            <button className="btn" onClick={handleSearch}>
+              Search
+            </button>
           </div>
           <div className="col-10">
             <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">

@@ -19,14 +19,58 @@ const FilterMovie = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [shows]);
+  }, [string]);
+
   return (
     <>
       <Navbar />
       <div className="container mt-5">
         <div className="row d-flex">
           <div className="col-2">
-            <h2 className="crd p-2">dddd</h2>
+            <div className="crd p-3 mb-2" style={{ width: "200px" }}>
+              <h5>Sort</h5>
+              <label>Sort by</label>
+              <select
+                class="form-select form-select-sm"
+                aria-label=".form-select-sm example"
+                onChange={handleSort}>
+                <option defaultValue="1" value="1">
+                  Title (A-Z)
+                </option>
+                <option value="2">Year of release descending</option>
+                <option value="3">Year of release ascending</option>
+              </select>
+            </div>
+            <div className="crd p-3 mb-2" style={{ width: "200px" }}>
+              <h5>Filter</h5>
+
+              <label>Genres</label>
+              <br></br>
+              {genres.map((genre) => {
+                return (
+                  <button
+                    type="button"
+                    class="btn btn-light me-1 mb-1"
+                    style={{ fontSize: "10px" }}>
+                    {genre.name}
+                  </button>
+                );
+              })}
+              <label className="mt-3">Year of release</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Dollar amount (with dot and two decimal places)"
+                />
+                <span class="input-group-text">
+                  <AiTwotoneCalendar />
+                </span>
+              </div>
+            </div>
+            <button className="btn" onClick={handleSearch}>
+              Search
+            </button>
           </div>
           <div className="col-10">
             <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
