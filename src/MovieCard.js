@@ -6,7 +6,7 @@ const MovieCard = ({ id, title, release_date, poster_path }) => {
     navigate(`/movie/${id}`);
   };
   return (
-    <div className="crd me-5 ">
+    <div className="crd ms-5 me-5">
       <img
         src={`https://www.themoviedb.org/t/p/w220_and_h330_face${poster_path}`}
         width="150"

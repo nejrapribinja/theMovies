@@ -32,16 +32,16 @@ const Navbar = () => {
                 Movies
               </a>
               <div class="dropdown-content">
-                <a href="#" onClick={() => navigate("/filterMovie/popular")}>
+                <a href="#" onClick={() => navigate("/filter-movie/popular")}>
                   Popular
                 </a>
-                <a href="#" onClick={() => navigate("/filterMovie/now_playing")}>
+                <a href="#" onClick={() => navigate("/filter-movie/now_playing")}>
                   Now playing
                 </a>
-                <a href="#" onClick={() => navigate("/filterMovie/upcoming")}>
+                <a href="#" onClick={() => navigate("/filter-movie/upcoming")}>
                   Upcoming
                 </a>
-                <a href="#" onClick={() => navigate("/filterMovie/top_rated")}>
+                <a href="#" onClick={() => navigate("/filter-movie/top_rated")}>
                   Top rated
                 </a>
               </div>
@@ -51,16 +51,16 @@ const Navbar = () => {
                 TV shows
               </a>
               <div class="dropdown-content">
-                <a href="#" onClick={() => navigate("/filterShow/popular")}>
+                <a href="#" onClick={() => navigate("/filter-show/popular")}>
                   Popular
                 </a>
-                <a href="#" onClick={() => navigate("/filterShow/airing_today")}>
+                <a href="#" onClick={() => navigate("/filter-show/airing_today")}>
                   Airing today
                 </a>
-                <a href="#" onClick={() => navigate("/filterShow/on_the_air")}>
+                <a href="#" onClick={() => navigate("/filter-show/on_the_air")}>
                   On TV
                 </a>
-                <a href="#" onClick={() => navigate("/filterShow/top_rated")}>
+                <a href="#" onClick={() => navigate("/filter-show/top_rated")}>
                   Top rated
                 </a>
               </div>

@@ -7,7 +7,7 @@ const TvShowCard = ({ ...show }) => {
   };
 
   return (
-    <div className="crd me-5">
+    <div className="crd me-5 ms-5">
       <img
         src={`https://www.themoviedb.org/t/p/w220_and_h330_face${show.poster_path}`}
         width="150"
