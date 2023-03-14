@@ -50,6 +50,18 @@ export const getAccount = async () => {
   }
 };
 
+export const getPopularMovies = async () => {
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
+    );
+    return response.data.results;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const getMoviesGenres = async () => {
   try {
     const response = await axios.get(
@@ -117,6 +129,17 @@ export const getFavoriteMovies = async () => {
   } catch (error) {
     console.log(error);
     throw new Error("Unable to get favorite movies.");
+  }
+};
+
+export const getFavoriteShows = async () => {
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/account/${accountId}/favorite/tv?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
+    );
+    return response.data.results;
+  } catch (error) {
+    throw new Error(error.message);
   }
 };
 

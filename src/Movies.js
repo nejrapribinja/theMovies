@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
-import axios from "axios";
-const apiKey = process.env.REACT_APP_API_KEY;
+import { getPopularMovies } from "./api/api";
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
+
   useEffect(() => {
-    axios
-      .get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`)
-      .then((response) => {
-        setMovies(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const fetchPopularMovies = async () => {
+      const popularMovies = await getPopularMovies();
+      if (popularMovies) {
+        setMovies(popularMovies);
+        console.log(popularMovies);
+      }
+    };
+
+    fetchPopularMovies();
   }, []);
 
   return (

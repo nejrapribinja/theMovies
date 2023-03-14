@@ -2,46 +2,21 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import MovieCard from "./MovieCard";
 import TvShowCard from "./TvShowCard";
-import axios from "axios";
-const apiKey = process.env.REACT_APP_API_KEY;
+import { getFavoriteMovies, getFavoriteShows } from "./api/api";
 
 const MyFavorites = () => {
-  const sessionId = localStorage.getItem("sessionId");
-  const accountID = localStorage.getItem("accountId");
   const [favoriteShows, setFavoriteShows] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
-  const getFavoriteMovies = async () => {
-    console.log(accountID, apiKey, sessionId);
-    await axios
-      .get(
-        `https://api.themoviedb.org/3/account/${accountID}/favorite/movies?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
-      )
-      .then((response) => {
-        setFavoriteMovies(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const getFavoriteShows = async () => {
-    console.log(accountID, apiKey, sessionId);
-    await axios
-      .get(
-        `https://api.themoviedb.org/3/account/${accountID}/favorite/tv?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
-      )
-      .then((response) => {
-        setFavoriteShows(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   useEffect(() => {
-    getFavoriteMovies();
-    getFavoriteShows();
+    const fetchData = async () => {
+      const favoriteMovies = await getFavoriteMovies();
+      const favoriteShows = await getFavoriteShows();
+      setFavoriteMovies(favoriteMovies);
+      setFavoriteShows(favoriteShows);
+    };
+
+    fetchData();
   }, []);
 
   return (
