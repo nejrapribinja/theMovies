@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Navbar from "./Navbar";
-const apiKey = process.env.REACT_APP_API_KEY;
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { markAsFavorite } from "./api/api";
+import { getMovie, getFavoriteMovies } from "./api/api";
 
 const Movie = () => {
   const [movie, setMovie] = useState([]);
   const { id } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
-  const sessionId = localStorage.getItem("sessionId");
-  const accountID = localStorage.getItem("accountId");
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const {
     poster_path,
@@ -30,48 +28,32 @@ const Movie = () => {
   };
   const handleFavorite = async () => {
     try {
-      const response = await axios.post(
-        `https://api.themoviedb.org/3/account/${accountID}/favorite?api_key=${apiKey}&session_id=${sessionId}`,
-        {
-          media_type: "movie",
-          media_id: movie.id,
-          favorite: !isFavorite,
-        }
-      );
+      const response = await markAsFavorite({
+        movieId: movie.id,
+        isFavorite,
+      });
       setIsFavorite(!isFavorite);
     } catch (error) {
       console.error(error);
     }
   };
-  const getMovie = () => {
-    axios
-      .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`)
-      .then((response) => {
-        setMovie(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const getFavoriteMovies = async () => {
-    console.log(accountID, apiKey, sessionId);
-    await axios
-      .get(
-        `https://api.themoviedb.org/3/account/${accountID}/favorite/movies?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
-      )
-      .then((response) => {
-        setFavoriteMovies(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+
   useEffect(() => {
-    getMovie();
-    getFavoriteMovies();
+    const fetchData = async () => {
+      try {
+        const movieData = await getMovie(id);
+        setMovie(movieData);
+
+        const favoriteMoviesData = await getFavoriteMovies();
+        setFavoriteMovies(favoriteMoviesData);
+      } catch (error) {
+        console.log(error);
+        alert("Unable to fetch data.");
+      }
+    };
+    fetchData();
   }, []);
+
   useEffect(() => {
     if (favoriteMovies && favoriteMovies.find((show) => show.id === parseInt(id))) {
       setIsFavorite(true);
@@ -79,6 +61,7 @@ const Movie = () => {
       setIsFavorite(false);
     }
   }, [favoriteMovies, id]);
+
   return (
     <>
       <Navbar />
