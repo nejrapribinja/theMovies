@@ -31,12 +31,12 @@ function Login(props) {
           request_token: requestToken,
         }
       );
-
+      console.log(responseValidation);
       // Provjera odgovora od servera
       if (responseValidation.data.success === true) {
         // Stvori sesiju za korisnika
         const responseSession = await axios.post(
-          `https://api.themoviedb.org/3/authentication/session/new?api_key=${process.env.REACT_APP_API_KEY}`,
+          `https://api.themoviedb.org/3/authentication/session/new?api_key=${apiKey}`,
           {
             request_token: requestToken,
           }
@@ -45,6 +45,7 @@ function Login(props) {
 
         // Spremi sesiju u lokalnu pohranu
         localStorage.setItem("sessionId", sessionId);
+        getAccount();
         navigate("/");
         props.onHide();
       } else {
@@ -55,7 +56,16 @@ function Login(props) {
       alert("Neuspješna prijava! Došlo je do pogreške na serveru.");
     }
   };
-
+  const getAccount = () => {
+    axios
+      .get(`https://api.themoviedb.org/3/account?api_key=${apiKey}&session_id=${sessionId}`)
+      .then((response) => {
+        localStorage.setItem("accountId", response.data.id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const register = async (e) => {
     e.preventDefault();
     try {

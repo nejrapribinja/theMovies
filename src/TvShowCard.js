@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 const TvShowCard = ({ ...show }) => {
   const navigate = useNavigate();
+
   const handleClick = (id) => {
     navigate(`/show/${id}`);
   };

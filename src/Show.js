@@ -3,10 +3,15 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar";
 const apiKey = process.env.REACT_APP_API_KEY;
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const Show = () => {
   const [show, setShow] = useState([]);
   const { id } = useParams();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const sessionId = localStorage.getItem("sessionId");
+  const accountID = localStorage.getItem("accountId");
+  const [favoriteShows, setFavoriteShows] = useState([]);
   const { poster_path, name, first_air_date, overview, created_by, backdrop_path, genres } = show;
 
   const styles = {
@@ -14,18 +19,62 @@ const Show = () => {
     backgroundSize: "cover",
     height: "70vh",
   };
+  const handleFavorite = async () => {
+    try {
+      const response = await axios.post(
+        `https://api.themoviedb.org/3/account/${accountID}/favorite?api_key=${apiKey}&session_id=${sessionId}`,
+        {
+          media_type: "tv",
+          media_id: show.id,
+          favorite: !isFavorite,
+        }
+      );
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  useEffect(() => {
+  const getShow = async () => {
     axios
       .get(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`)
       .then((response) => {
         setShow(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const getFavoriteShows = async () => {
+    console.log(accountID, apiKey, sessionId);
+    await axios
+      .get(
+        `https://api.themoviedb.org/3/account/${accountID}/favorite/tv?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
+      )
+      .then((response) => {
+        setFavoriteShows(response.data.results);
+        console.log(response.data.results);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getShow();
+    getFavoriteShows();
   }, []);
+
+  useEffect(() => {
+    if (favoriteShows && favoriteShows.find((show) => show.id === parseInt(id))) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
+  }, [favoriteShows, id]);
+
   return (
     <>
       <Navbar />
@@ -48,6 +97,9 @@ const Show = () => {
             ) : (
               <p></p>
             )}
+            <button onClick={handleFavorite} style={{ border: "none" }}>
+              {isFavorite ? <FaHeart /> : <FaRegHeart />}
+            </button>
             <h4 className="mt-3">Overview</h4>
             <p>{overview}</p>
 
