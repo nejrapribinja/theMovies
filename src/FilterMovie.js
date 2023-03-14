@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Navbar from "./Navbar";
 import MovieCard from "./MovieCard";
 import { AiTwotoneCalendar } from "react-icons/ai";
-const apiKey = process.env.REACT_APP_API_KEY;
+import { getMoviesGenres, fetchMovies } from "./api/api";
 
 const FilterMovie = () => {
   const { string } = useParams();
@@ -15,34 +14,23 @@ const FilterMovie = () => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [year, setYear] = useState("");
 
-  const fetchMovies = () => {
-    axios
-      .get(`https://api.themoviedb.org/3/movie/${string}?api_key=${apiKey}&language=en-US&page=1`)
-      .then((response) => {
-        setMovies(response.data.results);
-        setOriginalMovies(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
-    fetchMovies();
+    const fetchData = async () => {
+      const response = await fetchMovies(string);
+      setMovies(response);
+      setOriginalMovies(response);
+      console.log(response);
+    };
+    fetchData();
   }, [string]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`)
-      .then((response) => {
-        setGenres(response.data.genres);
-        console.log(response.data.genres);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    console.log(genres);
+    const fetchData = async () => {
+      const genres = await getMoviesGenres();
+      setGenres(genres);
+      console.log(genres);
+    };
+    fetchData();
   }, []);
 
   const handleGenreClick = (genreId) => {

@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import TvShowCard from "./TvShowCard";
 import Navbar from "./Navbar";
-import axios from "axios";
 import { AiTwotoneCalendar } from "react-icons/ai";
-const apiKey = process.env.REACT_APP_API_KEY;
+import { getTvShowsGenres, fetchTvShows } from "./api/api";
 
 const FilterShow = () => {
   const { string } = useParams();
@@ -15,34 +14,23 @@ const FilterShow = () => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [year, setYear] = useState("");
 
-  const fetchTvShows = () => {
-    axios
-      .get(`https://api.themoviedb.org/3/tv/${string}?api_key=${apiKey}&language=en-US&page=1`)
-      .then((response) => {
-        setShows(response.data.results);
-        setOriginalShows(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
-    fetchTvShows();
+    const fetchData = async () => {
+      const response = await fetchTvShows(string);
+      setShows(response);
+      setOriginalShows(response);
+      console.log(response);
+    };
+    fetchData();
   }, [string]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.themoviedb.org/3/genre/tv/list?api_key=${apiKey}&language=en-US`)
-      .then((response) => {
-        setGenres(response.data.genres);
-        console.log(response.data.genres);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    console.log(genres);
+    const fetchData = async () => {
+      const genres = await getTvShowsGenres();
+      setGenres(genres);
+      console.log(genres);
+    };
+    fetchData();
   }, []);
 
   const handleGenreClick = (genreId) => {
