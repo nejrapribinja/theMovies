@@ -3,23 +3,24 @@ import { useParams } from "react-router-dom";
 import TvShowCard from "./TvShowCard";
 import Navbar from "./Navbar";
 import axios from "axios";
+import { AiTwotoneCalendar } from "react-icons/ai";
 const apiKey = process.env.REACT_APP_API_KEY;
 
-const FilterMovie = () => {
+const FilterShow = () => {
   const { string } = useParams();
   const [shows, setShows] = useState([]);
-  const [originalMovies, setOriginalMovies] = useState([]);
+  const [originalShows, setOriginalShows] = useState([]);
   const [genres, setGenres] = useState([]);
   const [sortBy, setSortBy] = useState("title");
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [year, setYear] = useState("");
 
-  const fetchMovies = () => {
+  const fetchTvShows = () => {
     axios
-      .get(`https://api.themoviedb.org/3/movie/${string}?api_key=${apiKey}&language=en-US&page=1`)
+      .get(`https://api.themoviedb.org/3/tv/${string}?api_key=${apiKey}&language=en-US&page=1`)
       .then((response) => {
-        setMovies(response.data.results);
-        setOriginalMovies(response.data.results);
+        setShows(response.data.results);
+        setOriginalShows(response.data.results);
         console.log(response.data.results);
       })
       .catch((error) => {
@@ -28,12 +29,12 @@ const FilterMovie = () => {
   };
 
   useEffect(() => {
-    fetchMovies();
+    fetchTvShows();
   }, [string]);
 
   useEffect(() => {
     axios
-      .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`)
+      .get(`https://api.themoviedb.org/3/genre/tv/list?api_key=${apiKey}&language=en-US`)
       .then((response) => {
         setGenres(response.data.genres);
         console.log(response.data.genres);
@@ -55,62 +56,48 @@ const FilterMovie = () => {
     }
   };
   const handleSearch = () => {
-    let sortedMovies = [...originalMovies];
+    let sortedShows = [...originalShows];
     if (sortBy === "title") {
-      sortedMovies.sort((a, b) => a.title.localeCompare(b.title));
+      sortedShows.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortBy === "release_desc") {
-      sortedMovies.sort((a, b) => b.release_date.localeCompare(a.release_date));
+      sortedShows.sort((a, b) => b.first_air_date.localeCompare(a.first_air_date));
     } else if (sortBy === "release_asc") {
-      sortedMovies.sort((a, b) => a.release_date.localeCompare(b.release_date));
+      sortedShows.sort((a, b) => a.first_air_date.localeCompare(b.first_air_date));
     }
 
     const filteredGenres = genres
       .filter((genre) => selectedGenres.includes(genre.id))
       .map((genre) => genre.id);
-    let filteredMovies = sortedMovies.filter((movie) => {
+    let filteredShows = sortedShows.filter((show) => {
       if (filteredGenres.length === 0) {
         return true;
       }
-      return movie.genre_ids.some((genreId) => filteredGenres.includes(genreId));
+      return show.genre_ids.some((genreId) => filteredGenres.includes(genreId));
     });
     if (year) {
-      filteredMovies = filteredMovies.filter((movie) => {
-        return movie.release_date && movie.release_date.startsWith(year);
+      filteredShows = filteredShows.filter((show) => {
+        return show.release_date && show.release_date.startsWith(year);
       });
     }
-    setMovies(filteredMovies);
+    setShows(filteredShows);
   };
-
-  useEffect(() => {
-    axios
-      .get(`https://api.themoviedb.org/3/tv/${string}?api_key=${apiKey}&language=en-US&page=1`)
-      .then((response) => {
-        setShows(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [string]);
 
   return (
     <>
       <Navbar />
       <div className="container mt-5">
-        <div className="row d-flex">
+        <div className="row  d-flex">
           <div className="col-2">
             <div className="crd p-3 mb-2" style={{ width: "200px" }}>
               <h5>Sort</h5>
               <label>Sort by</label>
               <select
-                class="form-select form-select-sm"
+                className="form-select form-select-sm"
                 aria-label=".form-select-sm example"
-                onChange={handleSort}>
-                <option defaultValue="1" value="1">
-                  Title (A-Z)
-                </option>
-                <option value="2">Year of release descending</option>
-                <option value="3">Year of release ascending</option>
+                onChange={(e) => setSortBy(e.target.value)}>
+                <option value="title">Title (A-Z)</option>
+                <option value="release_desc">Year of release descending</option>
+                <option value="release_asc">Year of release ascending</option>
               </select>
             </div>
             <div className="crd p-3 mb-2" style={{ width: "200px" }}>
@@ -122,8 +109,9 @@ const FilterMovie = () => {
                 return (
                   <button
                     type="button"
-                    class="btn btn-light me-1 mb-1"
-                    style={{ fontSize: "10px" }}>
+                    className={`me-1 mb-1 ${selectedGenres.includes(genre.id) ? "selected" : ""}`}
+                    style={{ fontSize: "10px" }}
+                    onClick={() => handleGenreClick(genre.id)}>
                     {genre.name}
                   </button>
                 );
@@ -133,7 +121,8 @@ const FilterMovie = () => {
                 <input
                   type="text"
                   class="form-control"
-                  aria-label="Dollar amount (with dot and two decimal places)"
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
                 />
                 <span class="input-group-text">
                   <AiTwotoneCalendar />
@@ -161,4 +150,4 @@ const FilterMovie = () => {
   );
 };
 
-export default FilterMovie;
+export default FilterShow;

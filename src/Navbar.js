@@ -1,5 +1,4 @@
-import { FaPlus, FaBell, FaUser } from "react-icons/fa";
-import { GoSearch } from "react-icons/go";
+import { FaPlus, FaBell, FaUser, FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import { useState } from "react";
@@ -58,6 +57,11 @@ const CustomNavbar = () => {
             </Nav.Item>
           </Nav>
           <Nav className="d-flex align-items-center">
+            <Nav.Item>
+              <Nav.Link href="#">
+                <FaHeart onClick={() => navigate("/my-favorites")} />
+              </Nav.Link>
+            </Nav.Item>
             <Nav.Item>
               <Nav.Link href="#">
                 <FaPlus />
