@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Col, Row, FormCheck, FloatingLabel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+const apiKey = process.env.REACT_APP_API_KEY;
 
 function Login(props) {
   const [email, setEmail] = useState("");
@@ -14,26 +16,43 @@ function Login(props) {
   const login = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/logIn", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const parse = await response.json();
-      localStorage.setItem("token", parse.token);
-      localStorage.setItem("id", parse.tokenInfo.token_id);
-      localStorage.setItem("isAuth", "true");
-      localStorage.setItem("role", parse.tokenInfo.token_role_id);
-      localStorage.setItem(
-        "user",
-        parse.tokenInfo.token_name + " " + parse.tokenInfo.token_last_name
+      // Dohvati zahtjevnicu za pristupni token
+      const responseToken = await axios.get(
+        `https://api.themoviedb.org/3/authentication/token/new?api_key=${apiKey}`
       );
-      navigate(0);
-      props.onHide();
-    } catch (err) {
-      console.error(err.message);
+      const requestToken = responseToken.data.request_token;
+
+      // Pošalji zahtjevnicu i korisničke podatke za provjeru
+      const responseValidation = await axios.post(
+        `https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=${apiKey}`,
+        {
+          username: email,
+          password: password,
+          request_token: requestToken,
+        }
+      );
+
+      // Provjera odgovora od servera
+      if (responseValidation.data.success === true) {
+        // Stvori sesiju za korisnika
+        const responseSession = await axios.post(
+          `https://api.themoviedb.org/3/authentication/session/new?api_key=${process.env.REACT_APP_API_KEY}`,
+          {
+            request_token: requestToken,
+          }
+        );
+        const sessionId = responseSession.data.session_id;
+
+        // Spremi sesiju u lokalnu pohranu
+        localStorage.setItem("sessionId", sessionId);
+        navigate("/");
+        props.onHide();
+      } else {
+        alert("Neuspješna prijava! Provjerite podatke i pokušajte ponovno.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Neuspješna prijava! Došlo je do pogreške na serveru.");
     }
   };
 
