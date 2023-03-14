@@ -1,17 +1,47 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import MovieCard from "./MovieCard";
 import TvShowCard from "./TvShowCard";
+import axios from "axios";
+const apiKey = process.env.REACT_APP_API_KEY;
 
 const MyFavorites = () => {
-  const location = useLocation();
-  const searchResults1 = location.state?.searchResults1;
-  const searchResults2 = location.state?.searchResults2;
+  const sessionId = localStorage.getItem("sessionId");
+  const accountID = localStorage.getItem("accountId");
+  const [favoriteShows, setFavoriteShows] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
 
+  const getFavoriteMovies = async () => {
+    console.log(accountID, apiKey, sessionId);
+    await axios
+      .get(
+        `https://api.themoviedb.org/3/account/${accountID}/favorite/movies?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
+      )
+      .then((response) => {
+        setFavoriteMovies(response.data.results);
+        console.log(response.data.results);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const getFavoriteShows = async () => {
+    console.log(accountID, apiKey, sessionId);
+    await axios
+      .get(
+        `https://api.themoviedb.org/3/account/${accountID}/favorite/tv?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
+      )
+      .then((response) => {
+        setFavoriteShows(response.data.results);
+        console.log(response.data.results);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
-    console.log(searchResults1);
-    console.log(searchResults2);
+    getFavoriteMovies();
+    getFavoriteShows();
   }, []);
 
   return (
@@ -19,24 +49,20 @@ const MyFavorites = () => {
       <Navbar />
       <div className="container">
         <div className="row pt-5">
-          <div className="col-2">
-            <div className="crd p-3 ">
-              <h6>Search Results</h6>
-              <p>Movies: {searchResults1.length}</p>
-              <p>TV shows: {searchResults2.length}</p>
-            </div>
-          </div>
-
-          <div className="col-10">
+          <div className="col-12">
+            <h5>Movies</h5>
             <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 ">
-              {searchResults1.map((movie) => {
+              {favoriteMovies.map((movie) => {
                 return (
                   <div className="col">
                     <MovieCard key={movie.id} {...movie} />
                   </div>
                 );
               })}
-              {searchResults2.map((show) => {
+            </div>
+            <h5>Tv Shows</h5>
+            <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 ">
+              {favoriteShows.map((show) => {
                 return (
                   <div className="col">
                     <TvShowCard key={show.id} {...show} />

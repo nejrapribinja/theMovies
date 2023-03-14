@@ -57,6 +57,7 @@ function Login(props) {
     }
   };
   const getAccount = () => {
+    const sessionId = localStorage.getItem("sessionId");
     axios
       .get(`https://api.themoviedb.org/3/account?api_key=${apiKey}&session_id=${sessionId}`)
       .then((response) => {
