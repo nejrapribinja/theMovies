@@ -28,7 +28,9 @@ code {
   --bs-nav-link-hover-color: white !important;
   font-weight: bold;
 }
-
+.navbar-nav .nav-link.active, .navbar-nav .show>.nav-link  {
+  color: white !important;
+}
 .header {
   background-image: url("https://www.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,00192f,00baff)/9ZyAUZrfccsjtDwYgc7yvOBnqM9.jpg");
   background-size: cover;
@@ -114,8 +116,4 @@ button {
   background:linear-gradient(to right, rgba(30,213,169, 1) 0%, rgba(1,180,228, 1) 100%);
   color: white !important;
 }
-
-
-
-
 
