@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { markAsFavorite } from "./api/api";
-import { getMovie, getFavoriteMovies } from "./api/api";
+import { getMovie, getFavoriteMovies, markFavoriteMovie } from "./api/api";
 
 const Movie = () => {
   const [movie, setMovie] = useState([]);
@@ -28,7 +27,7 @@ const Movie = () => {
   };
   const handleFavorite = async () => {
     try {
-      const response = await markAsFavorite({
+      const response = await markFavoriteMovie({
         movieId: movie.id,
         isFavorite,
       });

@@ -4,6 +4,7 @@ import axios from "axios";
 import Navbar from "./Navbar";
 const apiKey = process.env.REACT_APP_API_KEY;
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { getTvShow, markFavoriteTvShow, getFavoriteTvShows } from "./api/api";
 
 const Show = () => {
   const [show, setShow] = useState([]);
@@ -19,32 +20,17 @@ const Show = () => {
     backgroundSize: "cover",
     height: "70vh",
   };
+
   const handleFavorite = async () => {
     try {
-      const response = await axios.post(
-        `https://api.themoviedb.org/3/account/${accountID}/favorite?api_key=${apiKey}&session_id=${sessionId}`,
-        {
-          media_type: "tv",
-          media_id: show.id,
-          favorite: !isFavorite,
-        }
-      );
+      const response = await markFavoriteTvShow({
+        showId: show.id,
+        isFavorite,
+      });
       setIsFavorite(!isFavorite);
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const getShow = async () => {
-    axios
-      .get(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`)
-      .then((response) => {
-        setShow(response.data);
-        //console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   const getFavoriteShows = async () => {
@@ -63,8 +49,19 @@ const Show = () => {
   };
 
   useEffect(() => {
-    getShow();
-    getFavoriteShows();
+    const fetchData = async () => {
+      try {
+        const tvShowData = await getTvShow(id);
+        setShow(tvShowData);
+
+        const favoriteTvShowsData = await getFavoriteTvShows();
+        setFavoriteShows(favoriteTvShowsData);
+      } catch (error) {
+        console.log(error);
+        alert("Unable to fetch data.");
+      }
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {

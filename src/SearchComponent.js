@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-const apiKey = process.env.REACT_APP_API_KEY;
+import { searchMoviesAndShows } from "./api/api";
 
 const SearchComponent = () => {
   const searchRef = useRef();
@@ -15,18 +14,9 @@ const SearchComponent = () => {
 
   const handleSearch = async () => {
     try {
-      const response1 = await axios.get(
-        `
-        https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${searchRef.current.value}&page=1&include_adult=false`
+      const { searchResults1, searchResults2 } = await searchMoviesAndShows(
+        searchRef.current.value
       );
-      const searchResults1 = response1.data.results;
-      console.log(response1.data.results);
-      const response2 = await axios.get(
-        `
-        https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&query=${searchRef.current.value}&page=1&include_adult=false`
-      );
-      const searchResults2 = response2.data.results;
-      console.log(response2.data.results);
       navigate("/search-results", { state: { searchResults1, searchResults2 } });
     } catch (error) {
       console.error(error);

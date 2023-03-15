@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import MovieCard from "./MovieCard";
 import TvShowCard from "./TvShowCard";
-import { getFavoriteMovies, getFavoriteShows } from "./api/api";
+import { getFavoriteMovies, getFavoriteTvShows } from "./api/api";
 
 const MyFavorites = () => {
   const [favoriteShows, setFavoriteShows] = useState([]);
@@ -11,7 +11,7 @@ const MyFavorites = () => {
   useEffect(() => {
     const fetchData = async () => {
       const favoriteMovies = await getFavoriteMovies();
-      const favoriteShows = await getFavoriteShows();
+      const favoriteShows = await getFavoriteTvShows();
       setFavoriteMovies(favoriteMovies);
       setFavoriteShows(favoriteShows);
     };

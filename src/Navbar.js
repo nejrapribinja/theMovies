@@ -2,7 +2,7 @@ import { FaPlus, FaBell, FaUser, FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import { useState } from "react";
-import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 
 const CustomNavbar = () => {
   const navigate = useNavigate();
