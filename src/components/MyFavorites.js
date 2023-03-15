@@ -16,7 +16,6 @@ const MyFavorites = () => {
       setFavoriteMovies(favoriteMovies);
       setFavoriteShows(favoriteShows);
     };
-
     fetchData();
   }, []);
 

@@ -35,12 +35,9 @@ const FilterShow = () => {
   }, []);
 
   const handleGenreClick = (genreId) => {
-    // Provjeri da li je genreId vec u nizu selectedGenres
     if (selectedGenres.includes(genreId)) {
-      // Ako jeste, ukloni ga iz niza
       setSelectedGenres(selectedGenres.filter((id) => id !== genreId));
     } else {
-      // Ako nije, dodaj ga u niz
       setSelectedGenres([...selectedGenres, genreId]);
     }
   };

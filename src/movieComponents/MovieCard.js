@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({ id, title, release_date, poster_path }) => {
   const navigate = useNavigate();
+
   const handleClick = (id) => {
     navigate(`/movie/${id}`);
   };
+
   return (
     <div className="crd ms-4 me-4">
       <img

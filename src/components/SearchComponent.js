@@ -28,7 +28,6 @@ const SearchComponent = () => {
     <Container className="header">
       <h1 className="ps-5"> Welcome.</h1>
       <h3 className="ps-5">Millions of movies, TV shows and people to discover. Explore now.</h3>
-
       <Row className="mt-5">
         <Col md={{ span: 10, offset: 1 }} className="p-5">
           <InputGroup>

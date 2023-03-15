@@ -35,15 +35,13 @@ const FilterMovie = () => {
   }, []);
 
   const handleGenreClick = (genreId) => {
-    // Provjeri da li je genreId vec u nizu selectedGenres
     if (selectedGenres.includes(genreId)) {
-      // Ako jeste, ukloni ga iz niza
       setSelectedGenres(selectedGenres.filter((id) => id !== genreId));
     } else {
-      // Ako nije, dodaj ga u niz
       setSelectedGenres([...selectedGenres, genreId]);
     }
   };
+
   const handleSearch = () => {
     let sortedMovies = [...originalMovies];
     if (sortBy === "title") {
@@ -90,7 +88,6 @@ const FilterMovie = () => {
             </Card>
             <Card className="p-3 mb-2" style={{ width: "200px" }}>
               <Card.Title>Filter</Card.Title>
-
               <Card.Text>Genres</Card.Text>
               <div className="mb-3">
                 {genres.map((genre) => {

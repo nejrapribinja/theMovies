@@ -26,7 +26,7 @@ const Movie = () => {
   const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(!!sessionId); // Konvertirajte sessionId u boolean vrijednost
+    setIsLoggedIn(!!sessionId);
   }, [isLoggedIn]);
 
   const styles = {

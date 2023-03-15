@@ -13,12 +13,11 @@ const CustomNavbar = () => {
   const sessionId = localStorage.getItem("sessionId");
 
   useEffect(() => {
-    setIsLoggedIn(!!sessionId); // Konvertirajte sessionId u boolean vrijednost
+    setIsLoggedIn(!!sessionId);
   }, [isLoggedIn]);
 
   const handleLogout = async () => {
     const success = await userLogout();
-
     if (success) {
       localStorage.removeItem("sessionId");
       localStorage.removeItem("accountId");
@@ -26,6 +25,14 @@ const CustomNavbar = () => {
       navigate("/");
     } else {
       console.log("error");
+    }
+  };
+
+  const handleClick = () => {
+    if (isLoggedIn) {
+      navigate("/my-favorites");
+    } else {
+      setModalShow(true);
     }
   };
 
@@ -79,13 +86,11 @@ const CustomNavbar = () => {
             </Nav.Item>
           </Nav>
           <Nav className="d-flex align-items-center">
-            {isLoggedIn && (
-              <Nav.Item>
-                <Nav.Link href="#">
-                  <FaHeart onClick={() => navigate("/my-favorites")} />
-                </Nav.Link>
-              </Nav.Item>
-            )}
+            <Nav.Item>
+              <Nav.Link href="#">
+                <FaHeart onClick={handleClick} />
+              </Nav.Link>
+            </Nav.Item>
             <Nav.Item>
               <Nav.Link href="#">
                 <FaPlus />

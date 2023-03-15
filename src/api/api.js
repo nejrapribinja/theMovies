@@ -120,7 +120,6 @@ export const getMovie = async (id) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw new Error("Unable to get movie details.");
   }
 };
 
@@ -132,7 +131,6 @@ export const getTvShow = async (id) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw new Error("Unable to get tv show details.");
   }
 };
 
@@ -146,7 +144,6 @@ export const getFavoriteMovies = async () => {
     return response.data.results;
   } catch (error) {
     console.log(error);
-    throw new Error("Unable to get favorite movies.");
   }
 };
 
@@ -159,7 +156,7 @@ export const getFavoriteTvShows = async () => {
     );
     return response.data.results;
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
 };
 

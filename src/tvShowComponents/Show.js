@@ -22,7 +22,7 @@ const Show = () => {
     height: "70vh",
   };
   useEffect(() => {
-    setIsLoggedIn(!!sessionId); // Konvertirajte sessionId u boolean vrijednost
+    setIsLoggedIn(!!sessionId);
   }, [isLoggedIn]);
 
   const handleFavorite = async () => {

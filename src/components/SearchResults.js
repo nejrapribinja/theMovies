@@ -31,7 +31,6 @@ const SearchResults = () => {
               </Card.Text>
             </Card>
           </Col>
-
           <Col md={10}>
             <Row xs={2} md={3} lg={5} className="g-4 ">
               {searchResults1.map((movie) => {
