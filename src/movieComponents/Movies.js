@@ -20,7 +20,7 @@ const Movies = () => {
     <div class="container mt-4 mb-4">
       <h3>Movies</h3>
       <h6>What's Popular</h6>
-      <div class="d-flex  overflow-x-scroll">
+      <div class="d-flex overflow-x-scroll">
         {movies.map((movie) => {
           return <MovieCard key={movie.id} {...movie} />;
         })}

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { getTvShow, markFavoriteTvShow, getFavoriteTvShows } from "../api/api";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 const Show = () => {
   const [show, setShow] = useState([]);
@@ -57,44 +58,49 @@ const Show = () => {
     <>
       <Navbar />
       <section style={styles}>
-        <div className="back d-flex  align-items-center">
-          <img
-            src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${poster_path}`}
-            className="m-5"
-          />
-          <div>
-            <h2>
-              {name} ({first_air_date})
-            </h2>
-            {genres?.length > 0 ? (
-              <div>
-                {genres.map((g) => (
-                  <span key={g.id}>{g.name} </span>
-                ))}
-              </div>
-            ) : (
-              <p></p>
-            )}
-            <button onClick={handleFavorite} style={{ border: "none" }}>
-              {isFavorite ? <FaHeart /> : <FaRegHeart />}
-            </button>
-            <h4 className="mt-3">Overview</h4>
-            <p>{overview}</p>
+        <Container fluid>
+          <Row className="back d-flex align-items-center">
+            <Col md={3}>
+              <img
+                src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${poster_path}`}
+                className="m-5"
+              />
+            </Col>
+            <Col md={9}>
+              <h2>
+                {name} ({first_air_date})
+              </h2>
+              {genres?.length > 0 ? (
+                <div>
+                  {genres.map((g) => (
+                    <span key={g.id}>{g.name} </span>
+                  ))}
+                </div>
+              ) : (
+                <p></p>
+              )}
+              <Button
+                onClick={handleFavorite}
+                className="d-flex justify-content-center align-items-center m-2">
+                {isFavorite ? <FaHeart /> : <FaRegHeart />}
+              </Button>
+              <h4 className="mt-3">Overview</h4>
+              <p>{overview}</p>
 
-            {created_by?.length > 0 ? (
-              <div>
-                {created_by.map((c) => (
-                  <>
-                    <h6 key={c.id}>{c.name}</h6>
-                    <p></p>
-                  </>
-                ))}
-              </div>
-            ) : (
-              <p></p>
-            )}
-          </div>
-        </div>
+              {created_by?.length > 0 ? (
+                <div>
+                  {created_by.map((c) => (
+                    <div key={c.id}>
+                      <h6>{c.name}</h6>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p></p>
+              )}
+            </Col>
+          </Row>
+        </Container>
       </section>
     </>
   );

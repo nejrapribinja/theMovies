@@ -4,6 +4,7 @@ import { getPopularTvShows } from "../api/api";
 
 const TvShows = () => {
   const [shows, setShows] = useState([]);
+
   useEffect(() => {
     const fetchPopularTvShows = async () => {
       const popularTvShows = await getPopularTvShows();

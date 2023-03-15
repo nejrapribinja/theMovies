@@ -38,7 +38,6 @@ code {
   padding: 35px ;
 }
 
-
 .form-control {
   transition: none !important;
 }
@@ -107,9 +106,12 @@ code {
 
 button {
   padding: 5px;
-  border: 1px solid gray;
+  border: 1px solid rgba(128, 128, 128, 0);
   border-radius: 15px !important;
   font-size: 14px !important;
+  --bs-btn-border-color: rgba(255, 255, 255, 0) !important;
+  --bs-btn-hover-border-color: rgba(255, 255, 255, 0) !important;
+  --bs-btn-active-border-color: rgba(255, 255, 255, 0) !important;
 }
 
 .selected {
@@ -117,3 +119,8 @@ button {
   color: white !important;
 }
 
+.bt {
+  border-radius: 0px !important;
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}

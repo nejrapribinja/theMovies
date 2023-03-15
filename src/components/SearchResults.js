@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import MovieCard from "../movieComponents/MovieCard";
 import TvShowCard from "../tvShowComponents/TvShowCard";
+import { Container, Row, Col, Card } from "react-bootstrap";
 
 const SearchResults = () => {
   const location = useLocation();
@@ -17,36 +18,40 @@ const SearchResults = () => {
   return (
     <>
       <Navbar />
-      <div className="container">
-        <div className="row pt-5">
-          <div className="col-2">
-            <div className="crd p-3 ">
-              <h6>Search Results</h6>
-              <p>Movies: {searchResults1.length}</p>
-              <p>TV shows: {searchResults2.length}</p>
-            </div>
-          </div>
+      <Container>
+        <Row className="pt-5">
+          <Col md={2}>
+            <Card className="p-3 ">
+              <Card.Title>
+                <h6>Search Results</h6>
+              </Card.Title>
+              <Card.Text>
+                <p>Movies: {searchResults1.length}</p>
+                <p>TV shows: {searchResults2.length}</p>
+              </Card.Text>
+            </Card>
+          </Col>
 
-          <div className="col-10">
-            <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 ">
+          <Col md={10}>
+            <Row xs={2} md={3} lg={5} className="g-4 ">
               {searchResults1.map((movie) => {
                 return (
-                  <div className="col">
-                    <MovieCard key={movie.id} {...movie} />
-                  </div>
+                  <Col key={movie.id}>
+                    <MovieCard {...movie} />
+                  </Col>
                 );
               })}
               {searchResults2.map((show) => {
                 return (
-                  <div className="col">
-                    <TvShowCard key={show.id} {...show} />
-                  </div>
+                  <Col key={show.id}>
+                    <TvShowCard {...show} />
+                  </Col>
                 );
               })}
-            </div>
-          </div>
-        </div>
-      </div>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

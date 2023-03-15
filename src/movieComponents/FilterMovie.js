@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import MovieCard from "./MovieCard";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { getMoviesGenres, fetchMovies } from "../api/api";
+import { Container, Row, Col, Button, Form, Card, InputGroup } from "react-bootstrap";
 
 const FilterMovie = () => {
   const { string } = useParams();
@@ -73,67 +74,68 @@ const FilterMovie = () => {
   return (
     <>
       <Navbar />
-      <div className="container mt-5">
-        <div className="row  d-flex">
-          <div className="col-2">
-            <div className="crd p-3 mb-2" style={{ width: "200px" }}>
-              <h5>Sort</h5>
-              <label>Sort by</label>
-              <select
-                className="form-select form-select-sm"
-                aria-label=".form-select-sm example"
+      <Container className="mt-5">
+        <Row className="d-flex">
+          <Col md={2}>
+            <Card className="p-3 mb-2" style={{ width: "200px" }}>
+              <Card.Title>Sort</Card.Title>
+              <Form.Select
+                aria-label="Sort by"
+                value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}>
                 <option value="title">Title (A-Z)</option>
                 <option value="release_desc">Year of release descending</option>
                 <option value="release_asc">Year of release ascending</option>
-              </select>
-            </div>
-            <div className="crd p-3 mb-2" style={{ width: "200px" }}>
-              <h5>Filter</h5>
+              </Form.Select>
+            </Card>
+            <Card className="p-3 mb-2" style={{ width: "200px" }}>
+              <Card.Title>Filter</Card.Title>
 
-              <label>Genres</label>
-              <br></br>
-              {genres.map((genre) => {
-                return (
-                  <button
-                    type="button"
-                    className={`me-1 mb-1 ${selectedGenres.includes(genre.id) ? "selected" : ""}`}
-                    style={{ fontSize: "10px" }}
-                    onClick={() => handleGenreClick(genre.id)}>
-                    {genre.name}
-                  </button>
-                );
-              })}
-              <label className="mt-3">Year of release</label>
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  value={year}
-                  onChange={(e) => setYear(e.target.value)}
-                />
-                <span class="input-group-text">
-                  <AiTwotoneCalendar />
-                </span>
+              <Card.Text>Genres</Card.Text>
+              <div className="mb-3">
+                {genres.map((genre) => {
+                  return (
+                    <button
+                      type="button"
+                      className={`me-1 mb-1 ${selectedGenres.includes(genre.id) ? "selected" : ""}`}
+                      style={{ fontSize: "10px" }}
+                      onClick={() => handleGenreClick(genre.id)}>
+                      {genre.name}
+                    </button>
+                  );
+                })}
               </div>
-            </div>
-            <button className="btn" onClick={handleSearch}>
+              <Form.Group>
+                <Form.Label>Year of release</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    type="text"
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                  />
+                  <InputGroup.Text>
+                    <AiTwotoneCalendar />
+                  </InputGroup.Text>
+                </InputGroup>
+              </Form.Group>
+            </Card>
+            <Button variant="primary" onClick={handleSearch}>
               Search
-            </button>
-          </div>
-          <div className="col-10">
-            <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+            </Button>
+          </Col>
+          <Col md={10}>
+            <Row className="row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
               {movies.map((movie) => {
                 return (
-                  <div className="col">
-                    <MovieCard key={movie.id} {...movie} />
-                  </div>
+                  <Col key={movie.id} className="col">
+                    <MovieCard {...movie} />
+                  </Col>
                 );
               })}
-            </div>
-          </div>
-        </div>
-      </div>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };
