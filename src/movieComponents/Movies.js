@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
-import { getPopularMovies } from "./api/api";
+import { getPopularMovies } from "../api/api";
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);

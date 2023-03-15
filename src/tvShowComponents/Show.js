@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { getTvShow, markFavoriteTvShow, getFavoriteTvShows } from "./api/api";
+import { getTvShow, markFavoriteTvShow, getFavoriteTvShows } from "../api/api";
 
 const Show = () => {
   const [show, setShow] = useState([]);

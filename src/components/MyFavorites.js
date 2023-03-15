@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import MovieCard from "./MovieCard";
-import TvShowCard from "./TvShowCard";
-import { getFavoriteMovies, getFavoriteTvShows } from "./api/api";
+import MovieCard from "../movieComponents/MovieCard";
+import TvShowCard from "../tvShowComponents/TvShowCard";
+import { getFavoriteMovies, getFavoriteTvShows } from "../api/api";
 
 const MyFavorites = () => {
   const [favoriteShows, setFavoriteShows] = useState([]);

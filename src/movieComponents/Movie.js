@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { getMovie, getFavoriteMovies, markFavoriteMovie } from "./api/api";
+import { getMovie, getFavoriteMovies, markFavoriteMovie } from "../api/api";
 
 const Movie = () => {
   const [movie, setMovie] = useState([]);

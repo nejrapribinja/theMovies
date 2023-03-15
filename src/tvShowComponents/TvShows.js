@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TvShowCard from "./TvShowCard";
-import { getPopularTvShows } from "./api/api";
+import { getPopularTvShows } from "../api/api";
 
 const TvShows = () => {
   const [shows, setShows] = useState([]);
@@ -12,7 +12,7 @@ const TvShows = () => {
         //console.log(popularTvShows);
       }
     };
-    fetchPopularMovies();
+    fetchPopularTvShows();
   }, []);
 
   return (

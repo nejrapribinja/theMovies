@@ -1,12 +1,12 @@
 import Home from "./Home";
 import { Route, Routes, Navigate } from "react-router-dom";
-import Show from "./Show";
-import Movie from "./Movie";
-import FilterMovie from "./FilterMovie";
-import FilterShow from "./FilterShow";
-import SearchResults from "./SearchResults";
+import Show from "./tvShowComponents/Show";
+import Movie from "./movieComponents/Movie";
+import FilterMovie from "./movieComponents/FilterMovie";
+import FilterShow from "./tvShowComponents/FilterShow";
+import SearchResults from "./components/SearchResults";
 import PrivateRoutes from "./utils/PrivateRoutes";
-import MyFavorites from "./MyFavorites";
+import MyFavorites from "./components/MyFavorites";
 
 function App() {
   return (

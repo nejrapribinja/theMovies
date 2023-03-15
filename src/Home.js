@@ -1,7 +1,7 @@
-import Movies from "./Movies";
-import Navbar from "./Navbar";
-import SearchComponent from "./SearchComponent";
-import TvShows from "./TvShows";
+import Movies from "./movieComponents/Movies";
+import Navbar from "./components/Navbar";
+import SearchComponent from "./components/SearchComponent";
+import TvShows from "./tvShowComponents/TvShows";
 
 const Home = () => {
   return (

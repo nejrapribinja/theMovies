@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import TvShowCard from "./TvShowCard";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
+import MovieCard from "./MovieCard";
 import { AiTwotoneCalendar } from "react-icons/ai";
-import { getTvShowsGenres, fetchTvShows } from "./api/api";
+import { getMoviesGenres, fetchMovies } from "../api/api";
 
-const FilterShow = () => {
+const FilterMovie = () => {
   const { string } = useParams();
-  const [shows, setShows] = useState([]);
-  const [originalShows, setOriginalShows] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [originalMovies, setOriginalMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [sortBy, setSortBy] = useState("title");
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -16,9 +16,9 @@ const FilterShow = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetchTvShows(string);
-      setShows(response);
-      setOriginalShows(response);
+      const response = await fetchMovies(string);
+      setMovies(response);
+      setOriginalMovies(response);
       console.log(response);
     };
     fetchData();
@@ -26,7 +26,7 @@ const FilterShow = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const genres = await getTvShowsGenres();
+      const genres = await getMoviesGenres();
       setGenres(genres);
       console.log(genres);
     };
@@ -44,30 +44,30 @@ const FilterShow = () => {
     }
   };
   const handleSearch = () => {
-    let sortedShows = [...originalShows];
+    let sortedMovies = [...originalMovies];
     if (sortBy === "title") {
-      sortedShows.sort((a, b) => a.name.localeCompare(b.name));
+      sortedMovies.sort((a, b) => a.title.localeCompare(b.title));
     } else if (sortBy === "release_desc") {
-      sortedShows.sort((a, b) => b.first_air_date.localeCompare(a.first_air_date));
+      sortedMovies.sort((a, b) => b.release_date.localeCompare(a.release_date));
     } else if (sortBy === "release_asc") {
-      sortedShows.sort((a, b) => a.first_air_date.localeCompare(b.first_air_date));
+      sortedMovies.sort((a, b) => a.release_date.localeCompare(b.release_date));
     }
 
     const filteredGenres = genres
       .filter((genre) => selectedGenres.includes(genre.id))
       .map((genre) => genre.id);
-    let filteredShows = sortedShows.filter((show) => {
+    let filteredMovies = sortedMovies.filter((movie) => {
       if (filteredGenres.length === 0) {
         return true;
       }
-      return show.genre_ids.some((genreId) => filteredGenres.includes(genreId));
+      return movie.genre_ids.some((genreId) => filteredGenres.includes(genreId));
     });
     if (year) {
-      filteredShows = filteredShows.filter((show) => {
-        return show.release_date && show.release_date.startsWith(year);
+      filteredMovies = filteredMovies.filter((movie) => {
+        return movie.release_date && movie.release_date.startsWith(year);
       });
     }
-    setShows(filteredShows);
+    setMovies(filteredMovies);
   };
 
   return (
@@ -123,10 +123,10 @@ const FilterShow = () => {
           </div>
           <div className="col-10">
             <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
-              {shows.map((show) => {
+              {movies.map((movie) => {
                 return (
                   <div className="col">
-                    <TvShowCard key={show.id} {...show} />
+                    <MovieCard key={movie.id} {...movie} />
                   </div>
                 );
               })}
@@ -138,4 +138,4 @@ const FilterShow = () => {
   );
 };
 
-export default FilterShow;
+export default FilterMovie;

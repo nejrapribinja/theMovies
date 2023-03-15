@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { searchMoviesAndShows } from "./api/api";
+import { searchMoviesAndShows } from "../api/api";
 
 const SearchComponent = () => {
   const searchRef = useRef();

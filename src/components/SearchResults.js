@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
-import MovieCard from "./MovieCard";
-import TvShowCard from "./TvShowCard";
+import MovieCard from "../movieComponents/MovieCard";
+import TvShowCard from "../tvShowComponents/TvShowCard";
 
 const SearchResults = () => {
   const location = useLocation();
