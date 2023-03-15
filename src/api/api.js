@@ -74,11 +74,19 @@ export const getTvShowsGenres = async () => {
 };
 
 export const fetchMovies = async (string) => {
+  let page = 1;
+  let movies = [];
+
   try {
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${string}?api_key=${apiKey}&language=en-US&page=1`
-    );
-    return response.data.results;
+    while (page <= 3) {
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/movie/${string}?api_key=${apiKey}&language=en-US&page=${page}`
+      );
+      movies = [...movies, ...response.data.results];
+      page++;
+    }
+    console.log(movies);
+    return movies;
   } catch (error) {
     console.log(error);
     return [];
@@ -86,11 +94,18 @@ export const fetchMovies = async (string) => {
 };
 
 export const fetchTvShows = async (string) => {
+  let page = 1;
+  let tvShows = [];
   try {
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/tv/${string}?api_key=${apiKey}&language=en-US&page=1`
-    );
-    return response.data.results;
+    while (page <= 3) {
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/tv/${string}?api_key=${apiKey}&language=en-US&page=${page}`
+      );
+      tvShows = [...tvShows, ...response.data.results];
+      page++;
+    }
+    console.log(tvShows);
+    return tvShows;
   } catch (error) {
     console.log(error);
     return [];

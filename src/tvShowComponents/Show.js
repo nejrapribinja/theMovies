@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { getTvShow, markFavoriteTvShow, getFavoriteTvShows } from "../api/api";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import Login from "../components/Login";
 
 const Show = () => {
   const [show, setShow] = useState([]);
@@ -11,22 +12,32 @@ const Show = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteShows, setFavoriteShows] = useState([]);
   const { poster_path, name, first_air_date, overview, created_by, backdrop_path, genres } = show;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const sessionId = localStorage.getItem("sessionId");
+  const [modalShow, setModalShow] = useState(false);
 
   const styles = {
     backgroundImage: `url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${backdrop_path})`,
     backgroundSize: "cover",
     height: "70vh",
   };
+  useEffect(() => {
+    setIsLoggedIn(!!sessionId); // Konvertirajte sessionId u boolean vrijednost
+  }, [isLoggedIn]);
 
   const handleFavorite = async () => {
-    try {
-      const response = await markFavoriteTvShow({
-        showId: show.id,
-        isFavorite,
-      });
-      setIsFavorite(!isFavorite);
-    } catch (error) {
-      console.error(error);
+    if (isLoggedIn) {
+      try {
+        const response = await markFavoriteTvShow({
+          showId: show.id,
+          isFavorite,
+        });
+        setIsFavorite(!isFavorite);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setModalShow(true);
     }
   };
 
@@ -36,15 +47,17 @@ const Show = () => {
         const tvShowData = await getTvShow(id);
         setShow(tvShowData);
 
-        const favoriteTvShowsData = await getFavoriteTvShows();
-        setFavoriteShows(favoriteTvShowsData);
+        if (isLoggedIn) {
+          const favoriteTvShowsData = await getFavoriteTvShows();
+          setFavoriteShows(favoriteTvShowsData);
+        }
       } catch (error) {
         console.log(error);
         alert("Unable to fetch data.");
       }
     };
     fetchData();
-  }, []);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (favoriteShows && favoriteShows.find((show) => show.id === parseInt(id))) {
@@ -99,6 +112,12 @@ const Show = () => {
                 <p></p>
               )}
             </Col>
+            <Login
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+              setIsLoggedIn={setIsLoggedIn}
+              isLoggedIn={isLoggedIn}
+            />
           </Row>
         </Container>
       </section>

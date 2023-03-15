@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { getMovie, getFavoriteMovies, markFavoriteMovie } from "../api/api";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import Login from "../components/Login";
 
 const Movie = () => {
   const [movie, setMovie] = useState([]);
@@ -20,6 +21,13 @@ const Movie = () => {
     genres,
     tagline,
   } = movie;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const sessionId = localStorage.getItem("sessionId");
+  const [modalShow, setModalShow] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(!!sessionId); // Konvertirajte sessionId u boolean vrijednost
+  }, [isLoggedIn]);
 
   const styles = {
     backgroundImage: `url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${backdrop_path})`,
@@ -27,14 +35,18 @@ const Movie = () => {
     height: "70vh",
   };
   const handleFavorite = async () => {
-    try {
-      const response = await markFavoriteMovie({
-        movieId: movie.id,
-        isFavorite,
-      });
-      setIsFavorite(!isFavorite);
-    } catch (error) {
-      console.error(error);
+    if (isLoggedIn) {
+      try {
+        const response = await markFavoriteMovie({
+          movieId: movie.id,
+          isFavorite,
+        });
+        setIsFavorite(!isFavorite);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setModalShow(true);
     }
   };
 
@@ -44,15 +56,17 @@ const Movie = () => {
         const movieData = await getMovie(id);
         setMovie(movieData);
 
-        const favoriteMoviesData = await getFavoriteMovies();
-        setFavoriteMovies(favoriteMoviesData);
+        if (isLoggedIn) {
+          const favoriteMoviesData = await getFavoriteMovies();
+          setFavoriteMovies(favoriteMoviesData);
+        }
       } catch (error) {
         console.log(error);
         alert("Unable to fetch data.");
       }
     };
     fetchData();
-  }, []);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (favoriteMovies && favoriteMovies.find((show) => show.id === parseInt(id))) {
@@ -108,6 +122,12 @@ const Movie = () => {
                 <p></p>
               )}
             </Col>
+            <Login
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+              setIsLoggedIn={setIsLoggedIn}
+              isLoggedIn={isLoggedIn}
+            />
           </Row>
         </Container>
       </section>

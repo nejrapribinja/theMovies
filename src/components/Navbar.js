@@ -21,6 +21,7 @@ const CustomNavbar = () => {
 
     if (success) {
       localStorage.removeItem("sessionId");
+      localStorage.removeItem("accountId");
       setIsLoggedIn(false);
       navigate("/");
     } else {
@@ -78,11 +79,13 @@ const CustomNavbar = () => {
             </Nav.Item>
           </Nav>
           <Nav className="d-flex align-items-center">
-            <Nav.Item>
-              <Nav.Link href="#">
-                <FaHeart onClick={() => navigate("/my-favorites")} />
-              </Nav.Link>
-            </Nav.Item>
+            {isLoggedIn && (
+              <Nav.Item>
+                <Nav.Link href="#">
+                  <FaHeart onClick={() => navigate("/my-favorites")} />
+                </Nav.Link>
+              </Nav.Item>
+            )}
             <Nav.Item>
               <Nav.Link href="#">
                 <FaPlus />
