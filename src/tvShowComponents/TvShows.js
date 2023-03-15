@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import TvShowCard from "./TvShowCard";
-import { getPopularTvShows } from "../api/api";
+import { fetchTvShows } from "../api/api";
 
 const TvShows = () => {
   const [shows, setShows] = useState([]);
 
   useEffect(() => {
     const fetchPopularTvShows = async () => {
-      const popularTvShows = await getPopularTvShows();
+      const popularTvShows = await fetchTvShows("popular");
       if (popularTvShows) {
         setShows(popularTvShows);
         //console.log(popularTvShows);

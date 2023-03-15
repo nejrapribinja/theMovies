@@ -1,7 +1,5 @@
 import axios from "axios";
 const apiKey = process.env.REACT_APP_API_KEY;
-const sessionId = localStorage.getItem("sessionId");
-const accountId = localStorage.getItem("accountId");
 
 export const userLogin = async (username, password) => {
   try {
@@ -27,7 +25,6 @@ export const userLogin = async (username, password) => {
         }
       );
       const sessionId = responseSession.data.session_id;
-
       localStorage.setItem("sessionId", sessionId);
       return true;
     } else {
@@ -40,37 +37,17 @@ export const userLogin = async (username, password) => {
 };
 
 export const getAccount = async () => {
+  const sessionId = localStorage.getItem("sessionId");
   try {
+    console.log(sessionId);
     const response = await axios.get(
       `https://api.themoviedb.org/3/account?api_key=${apiKey}&session_id=${sessionId}`
     );
+    console.log(response.data.id);
     localStorage.setItem("accountId", response.data.id);
+    return true;
   } catch (error) {
     console.log(error);
-  }
-};
-
-export const getPopularMovies = async () => {
-  try {
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
-    );
-    return response.data.results;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
-
-export const getPopularTvShows = async () => {
-  try {
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`
-    );
-    return response.data.results;
-  } catch (error) {
-    console.error(error);
-    return null;
   }
 };
 
@@ -145,6 +122,8 @@ export const getTvShow = async (id) => {
 };
 
 export const getFavoriteMovies = async () => {
+  const accountId = localStorage.getItem("accountId");
+  const sessionId = localStorage.getItem("sessionId");
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/account/${accountId}/favorite/movies?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
@@ -157,6 +136,8 @@ export const getFavoriteMovies = async () => {
 };
 
 export const getFavoriteTvShows = async () => {
+  const accountId = localStorage.getItem("accountId");
+  const sessionId = localStorage.getItem("sessionId");
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/account/${accountId}/favorite/tv?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
@@ -168,6 +149,8 @@ export const getFavoriteTvShows = async () => {
 };
 
 export const markFavoriteMovie = async ({ movieId, isFavorite }) => {
+  const accountId = localStorage.getItem("accountId");
+  const sessionId = localStorage.getItem("sessionId");
   try {
     const response = await axios.post(
       `https://api.themoviedb.org/3/account/${accountId}/favorite?api_key=${apiKey}&session_id=${sessionId}`,
@@ -184,6 +167,8 @@ export const markFavoriteMovie = async ({ movieId, isFavorite }) => {
 };
 
 export const markFavoriteTvShow = async ({ showId, isFavorite }) => {
+  const accountId = localStorage.getItem("accountId");
+  const sessionId = localStorage.getItem("sessionId");
   try {
     const response = await axios.post(
       `https://api.themoviedb.org/3/account/${accountId}/favorite?api_key=${apiKey}&session_id=${sessionId}`,
@@ -214,5 +199,24 @@ export const searchMoviesAndShows = async (searchTerm) => {
     return { searchResults1, searchResults2 };
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const userLogout = async () => {
+  const sessionId = localStorage.getItem("sessionId");
+  try {
+    const response = await axios.delete(
+      `https://api.themoviedb.org/3/authentication/session?api_key=${apiKey}`,
+      {
+        data: {
+          session_id: sessionId,
+        },
+      }
+    );
+    //console.log(response.data.success);
+    return response.data.success;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 };

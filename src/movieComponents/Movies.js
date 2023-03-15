@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
-import { getPopularMovies } from "../api/api";
+import { fetchMovies } from "../api/api";
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const fetchPopularMovies = async () => {
-      const popularMovies = await getPopularMovies();
+      const popularMovies = await fetchMovies("popular");
       if (popularMovies) {
         setMovies(popularMovies);
         //console.log(popularMovies);

@@ -1,12 +1,32 @@
 import { FaPlus, FaBell, FaUser, FaHeart } from "react-icons/fa";
+import { MdOutlineLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { userLogout } from "../api/api";
 
 const CustomNavbar = () => {
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const sessionId = localStorage.getItem("sessionId");
+
+  useEffect(() => {
+    setIsLoggedIn(!!sessionId); // Konvertirajte sessionId u boolean vrijednost
+  }, [isLoggedIn]);
+
+  const handleLogout = async () => {
+    const success = await userLogout();
+
+    if (success) {
+      localStorage.removeItem("sessionId");
+      setIsLoggedIn(false);
+      navigate("/");
+    } else {
+      console.log("error");
+    }
+  };
 
   return (
     <Navbar bg="body" variant="tertiary" expand="lg">
@@ -80,12 +100,23 @@ const CustomNavbar = () => {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="#" onClick={() => setModalShow(true)}>
-                <FaUser />
-              </Nav.Link>
+              {isLoggedIn ? (
+                <Nav.Link href="#" onClick={handleLogout}>
+                  <MdOutlineLogout />
+                </Nav.Link>
+              ) : (
+                <Nav.Link href="#" onClick={() => setModalShow(true)}>
+                  <FaUser />
+                </Nav.Link>
+              )}
             </Nav.Item>
           </Nav>
-          <Login show={modalShow} onHide={() => setModalShow(false)} />
+          <Login
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            setIsLoggedIn={setIsLoggedIn}
+            isLoggedIn={isLoggedIn}
+          />
         </Navbar.Collapse>
       </Container>
     </Navbar>
