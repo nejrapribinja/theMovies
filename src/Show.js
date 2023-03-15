@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Navbar from "./Navbar";
-const apiKey = process.env.REACT_APP_API_KEY;
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { getTvShow, markFavoriteTvShow, getFavoriteTvShows } from "./api/api";
 
@@ -10,8 +8,6 @@ const Show = () => {
   const [show, setShow] = useState([]);
   const { id } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
-  const sessionId = localStorage.getItem("sessionId");
-  const accountID = localStorage.getItem("accountId");
   const [favoriteShows, setFavoriteShows] = useState([]);
   const { poster_path, name, first_air_date, overview, created_by, backdrop_path, genres } = show;
 
@@ -31,21 +27,6 @@ const Show = () => {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const getFavoriteShows = async () => {
-    console.log(accountID, apiKey, sessionId);
-    await axios
-      .get(
-        `https://api.themoviedb.org/3/account/${accountID}/favorite/tv?api_key=${apiKey}&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`
-      )
-      .then((response) => {
-        setFavoriteShows(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   useEffect(() => {

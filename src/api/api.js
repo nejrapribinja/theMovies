@@ -62,6 +62,18 @@ export const getPopularMovies = async () => {
   }
 };
 
+export const getPopularTvShows = async () => {
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`
+    );
+    return response.data.results;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const getMoviesGenres = async () => {
   try {
     const response = await axios.get(

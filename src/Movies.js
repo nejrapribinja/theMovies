@@ -10,10 +10,9 @@ const Movies = () => {
       const popularMovies = await getPopularMovies();
       if (popularMovies) {
         setMovies(popularMovies);
-        console.log(popularMovies);
+        //console.log(popularMovies);
       }
     };
-
     fetchPopularMovies();
   }, []);
 
