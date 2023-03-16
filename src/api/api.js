@@ -197,18 +197,23 @@ export const markFavoriteTvShow = async ({ showId, isFavorite }) => {
 };
 
 export const searchMoviesAndShows = async (searchTerm) => {
+  let page = 1;
+  let movies = [];
+  let tvShows = [];
   try {
-    const response1 = await axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${searchTerm}&page=1&include_adult=false`
-    );
-    const searchResults1 = response1.data.results;
-    //console.log(response1.data.results);
-    const response2 = await axios.get(
-      `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&query=${searchTerm}&page=1&include_adult=false`
-    );
-    const searchResults2 = response2.data.results;
-    //console.log(response2.data.results);
-    return { searchResults1, searchResults2 };
+    while (page <= 3) {
+      const response1 = await axios.get(
+        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${searchTerm}&page=${page}&include_adult=false`
+      );
+      movies = [...movies, ...response1.data.results];
+      const response2 = await axios.get(
+        `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&query=${searchTerm}&page=${page}&include_adult=false`
+      );
+      tvShows = [...tvShows, ...response2.data.results];
+      page++;
+    }
+    console.log(movies, tvShows);
+    return { movies, tvShows };
   } catch (error) {
     console.error(error);
   }

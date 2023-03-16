@@ -7,12 +7,12 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 
 const SearchResults = () => {
   const location = useLocation();
-  const searchResults1 = location.state?.searchResults1;
-  const searchResults2 = location.state?.searchResults2;
+  const movies = location.state?.movies;
+  const tvShows = location.state?.tvShows;
 
   useEffect(() => {
-    console.log(searchResults1);
-    console.log(searchResults2);
+    console.log(movies);
+    console.log(tvShows);
   }, []);
 
   return (
@@ -26,21 +26,21 @@ const SearchResults = () => {
                 <h6>Search Results</h6>
               </Card.Title>
               <Card.Text>
-                <p>Movies: {searchResults1.length}</p>
-                <p>TV shows: {searchResults2.length}</p>
+                <p>Movies: {movies.length}</p>
+                <p>TV shows: {tvShows.length}</p>
               </Card.Text>
             </Card>
           </Col>
           <Col md={10}>
             <Row xs={2} md={3} lg={5} className="g-4 ">
-              {searchResults1.map((movie) => {
+              {movies.map((movie) => {
                 return (
                   <Col key={movie.id}>
                     <MovieCard {...movie} />
                   </Col>
                 );
               })}
-              {searchResults2.map((show) => {
+              {tvShows.map((show) => {
                 return (
                   <Col key={show.id}>
                     <TvShowCard {...show} />

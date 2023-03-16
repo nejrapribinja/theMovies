@@ -15,10 +15,8 @@ const SearchComponent = () => {
 
   const handleSearch = async () => {
     try {
-      const { searchResults1, searchResults2 } = await searchMoviesAndShows(
-        searchRef.current.value
-      );
-      navigate("/search-results", { state: { searchResults1, searchResults2 } });
+      const { movies, tvShows } = await searchMoviesAndShows(searchRef.current.value);
+      navigate("/search-results", { state: { movies, tvShows } });
     } catch (error) {
       console.error(error);
     }
