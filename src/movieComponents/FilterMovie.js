@@ -20,7 +20,7 @@ const FilterMovie = () => {
       const response = await fetchMovies(string);
       setMovies(response);
       setOriginalMovies(response);
-      console.log(response);
+      //console.log(response);
     };
     fetchData();
   }, [string]);
@@ -29,7 +29,7 @@ const FilterMovie = () => {
     const fetchData = async () => {
       const genres = await getMoviesGenres();
       setGenres(genres);
-      console.log(genres);
+      //console.log(genres);
     };
     fetchData();
   }, []);
@@ -55,12 +55,14 @@ const FilterMovie = () => {
     const filteredGenres = genres
       .filter((genre) => selectedGenres.includes(genre.id))
       .map((genre) => genre.id);
+
     let filteredMovies = sortedMovies.filter((movie) => {
       if (filteredGenres.length === 0) {
         return true;
       }
       return movie.genre_ids.some((genreId) => filteredGenres.includes(genreId));
     });
+
     if (year) {
       filteredMovies = filteredMovies.filter((movie) => {
         return movie.release_date && movie.release_date.startsWith(year);

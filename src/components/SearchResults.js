@@ -10,11 +10,6 @@ const SearchResults = () => {
   const movies = location.state?.movies;
   const tvShows = location.state?.tvShows;
 
-  useEffect(() => {
-    console.log(movies);
-    console.log(tvShows);
-  }, []);
-
   return (
     <>
       <Navbar />

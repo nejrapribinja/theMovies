@@ -21,9 +21,6 @@ const Show = () => {
     backgroundSize: "cover",
     height: "70vh",
   };
-  useEffect(() => {
-    setIsLoggedIn(!!sessionId);
-  }, [isLoggedIn]);
 
   const handleFavorite = async () => {
     if (isLoggedIn) {
@@ -42,6 +39,7 @@ const Show = () => {
   };
 
   useEffect(() => {
+    setIsLoggedIn(!!sessionId);
     const fetchData = async () => {
       try {
         const tvShowData = await getTvShow(id);

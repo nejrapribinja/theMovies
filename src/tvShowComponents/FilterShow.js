@@ -41,6 +41,7 @@ const FilterShow = () => {
       setSelectedGenres([...selectedGenres, genreId]);
     }
   };
+
   const handleSearch = () => {
     let sortedShows = [...originalShows];
     if (sortBy === "title") {
@@ -54,12 +55,14 @@ const FilterShow = () => {
     const filteredGenres = genres
       .filter((genre) => selectedGenres.includes(genre.id))
       .map((genre) => genre.id);
+
     let filteredShows = sortedShows.filter((show) => {
       if (filteredGenres.length === 0) {
         return true;
       }
       return show.genre_ids.some((genreId) => filteredGenres.includes(genreId));
     });
+
     if (year) {
       filteredShows = filteredShows.filter((show) => {
         return show.first_air_date && show.first_air_date.startsWith(year);

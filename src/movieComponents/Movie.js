@@ -25,15 +25,12 @@ const Movie = () => {
   const sessionId = localStorage.getItem("sessionId");
   const [modalShow, setModalShow] = useState(false);
 
-  useEffect(() => {
-    setIsLoggedIn(!!sessionId);
-  }, [isLoggedIn]);
-
   const styles = {
     backgroundImage: `url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${backdrop_path})`,
     backgroundSize: "cover",
     height: "70vh",
   };
+
   const handleFavorite = async () => {
     if (isLoggedIn) {
       try {
@@ -51,6 +48,7 @@ const Movie = () => {
   };
 
   useEffect(() => {
+    setIsLoggedIn(!!sessionId);
     const fetchData = async () => {
       try {
         const movieData = await getMovie(id);

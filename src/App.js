@@ -17,7 +17,6 @@ function App() {
       <Route path="/filter-show/:string" element={<FilterShow />} />
       <Route path="/filter-movie/:string" element={<FilterMovie />} />
       <Route path="/search-results" element={<SearchResults />} />
-
       <Route element={<PrivateRoutes />}>
         <Route path="/my-favorites" element={<MyFavorites />} />
       </Route>

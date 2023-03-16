@@ -1,23 +1,21 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Col, FloatingLabel } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { userLogin, getAccount } from "../api/api";
 
 function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const login = async (e) => {
     e.preventDefault();
     const success = await userLogin(username, password);
     if (success) {
       props.setIsLoggedIn(true);
-      navigate("/");
+      location.reload();
       props.onHide();
 
       const account = await getAccount();
-      console.log(account);
+      //console.log(account);
     } else {
       alert("Neuspješna prijava! Provjerite podatke i pokušajte ponovno.");
     }

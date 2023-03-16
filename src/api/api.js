@@ -39,11 +39,10 @@ export const userLogin = async (username, password) => {
 export const getAccount = async () => {
   const sessionId = localStorage.getItem("sessionId");
   try {
-    console.log(sessionId);
     const response = await axios.get(
       `https://api.themoviedb.org/3/account?api_key=${apiKey}&session_id=${sessionId}`
     );
-    console.log(response.data.id);
+    //console.log(response.data.id);
     localStorage.setItem("accountId", response.data.id);
     return true;
   } catch (error) {
