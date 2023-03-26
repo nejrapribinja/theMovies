@@ -52,15 +52,11 @@ const FilterMovie = () => {
       sortedMovies.sort((a, b) => a.release_date.localeCompare(b.release_date));
     }
 
-    const filteredGenres = genres
-      .filter((genre) => selectedGenres.includes(genre.id))
-      .map((genre) => genre.id);
-
     let filteredMovies = sortedMovies.filter((movie) => {
-      if (filteredGenres.length === 0) {
+      if (selectedGenres.length === 0) {
         return true;
       }
-      return movie.genre_ids.some((genreId) => filteredGenres.includes(genreId));
+      return movie.genre_ids.some((genreId) => selectedGenres.includes(genreId));
     });
 
     if (year) {

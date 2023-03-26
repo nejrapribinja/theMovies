@@ -52,15 +52,11 @@ const FilterShow = () => {
       sortedShows.sort((a, b) => a.first_air_date.localeCompare(b.first_air_date));
     }
 
-    const filteredGenres = genres
-      .filter((genre) => selectedGenres.includes(genre.id))
-      .map((genre) => genre.id);
-
     let filteredShows = sortedShows.filter((show) => {
-      if (filteredGenres.length === 0) {
+      if (selectedGenres.length === 0) {
         return true;
       }
-      return show.genre_ids.some((genreId) => filteredGenres.includes(genreId));
+      return show.genre_ids.some((genreId) => selectedGenres.includes(genreId));
     });
 
     if (year) {
