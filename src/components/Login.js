@@ -11,7 +11,6 @@ function Login(props) {
     const success = await userLogin(username, password);
     if (success) {
       props.setIsLoggedIn(true);
-      location.reload();
       props.onHide();
 
       const account = await getAccount();
